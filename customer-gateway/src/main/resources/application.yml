@@ -1,0 +1,27 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://spcloud:123456@localhost:8080/eureka/
+  instance:
+      hostname: localhost
+      instance-id: ${eureka.instance.ip-address}:${server.port}
+      ip-address: localhost
+      prefer-ip-address: true
+spring:
+  application:
+    name: customer-gateway
+server:
+  port: 8084
+zuul:
+  prefix: /api
+  #忽略默认的服务 配置后自定义路由不能用
+  #ignored-services: "*"
+  routes:
+     service-version:
+          # 和自定义路由不冲突可同时配置
+          path: /service/version/**
+          serviceId : service-version
+     service-v:
+          # 和自定义路由不冲突可同时配置
+          path: /service/v/**
+          serviceId : service-version

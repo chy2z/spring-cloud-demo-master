@@ -1,0 +1,6 @@
+spring:
+   cloud:
+      config:
+         profile: default  #配置文件名称 app-default
+         label: master
+         uri: http://localhost:8888/   #配置服务地址

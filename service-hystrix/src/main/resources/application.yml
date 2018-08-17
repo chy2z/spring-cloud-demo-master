@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: servicehystrix
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://spcloud:123456@localhost:8080/eureka/  #注册中心地址
+  instance:
+    hostname: localhost
+    instance-id: ${eureka.instance.ip-address}:${server.port}
+    ip-address: localhost
+    prefer-ip-address: true
+server:
+  port: 8092
+  tomcat:
+    uri-encoding: utf-8
+info:
+   build:
+     names: Feign客户端熔断测试
+     version: 1.0.0
+# feign配置
+feign:
+  hystrix:
+    enabled: true # 开启hystrix
+# ribbon全局配置
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+# ribbon指定服务配置
+# 根据 @FeignClient 注解的name 配置 ribbon
+service0:
+  ribbon:
+    ReadTimeout: 2000
+    ConnectTimeout: 5000
+    MaxAutoRetries: 1  # SR6版本,这里设为1,会重试3次,重试次数还和另外的两个值有关
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule #Ribbon的负载均衡策略
+# hystrix配置
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true # 启用超时
+        isolation:
+          thread:
+             timeoutInMilliseconds: 3000  #设置超时时间

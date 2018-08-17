@@ -1,0 +1,20 @@
+server:
+  port: 8080 # 注册中心占用8080端口
+eureka:
+  instance:
+    hostname: localhost
+    preferIpAddress: true
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://spcloud:123456@${eureka.instance.hostname}:${server.port}/eureka/ #其实就是 http://localhost:8080/eureka/
+  server:
+    enable-self-preservation: false      # 设为false，关闭自我保护
+    eviction-interval-timer-in-ms: 60000
+security: # 安全认证
+  basic:
+    enabled: true # 单位毫秒，默认是60*1000
+  user:
+    name: spcloud
+    password: 123456

@@ -1,0 +1,46 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://spcloud:123456@localhost:8080/eureka/
+  instance:
+      hostname: localhost
+      instance-id: ${eureka.instance.ip-address}:${server.port}
+      ip-address: localhost
+      prefer-ip-address: true
+spring:
+  application:
+    name: gateway
+server:
+  port: 8083
+zuul:
+  # 请求前缀
+  # 例如：http://localhost:8083/chy/service-0/info
+  prefix: /chy
+  # 如果设置true:启用前缀访问，设置false,所有都不能访问
+  strip-prefix: true
+  # 当启用网关时,网关自动对所有服务创建默认规则
+  # 例如：http://localhost:8083/service0/info 可以默认访问
+  # ignored-services: service0
+  # 例如：http://localhost:8083/service0/info 不能默认访问
+  # 配置*取消自动创建
+  ignored-services: "*"
+  # 忽略路径 hello
+  # 例如：http://localhost:8083/service-0/hello 不能访问
+  ignored-patterns: /**/hello/**
+  routes:
+    # 客户端请求------>http://localhost:8083(网关地址)/service-0/info
+    # 通过 service-0 找到  服务名称 service0
+    # 通过 服务名称 service0 找到 真实地址
+    # 请求转发-------->http://localhost:8081(服务正式地址)/info
+    # service0 如果多个服务实例，默认轮询均衡负载
+    myservice0:
+        path: /service-0/**
+        serviceId: service0
+    # 需要授权才能访问，增加参数 token
+    # http://localhost:8083/service-1/info?token=1
+    myservice1:
+        path: /service-1/**
+        serviceId: service1
+    myservicehystrix:
+        path: /service-hystrix/**
+        serviceId: servicehystrix

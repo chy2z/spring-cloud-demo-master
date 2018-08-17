@@ -1,0 +1,23 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: config-center
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/chy2z/spring-cloud-config.git
+          # searchPaths: '{application}'  #搜索以服务名命名的文件夹下的所有yml
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${eureka.instance.ip-address}:${server.port}
+    ip-address: localhost
+  client:
+     serviceUrl:
+        defaultZone:  http://spcloud:123456@localhost:8080/eureka/  #注册中心地址
+info:
+   build:
+     names: 配置中心
+     version: 1.0.0

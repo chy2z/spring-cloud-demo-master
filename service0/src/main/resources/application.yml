@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: service0  # service0 和  service0-copy applicationName一样，做均衡负载测试用
+  http:
+    encoding:
+       force: true
+       charset: UTF-8
+       enabled: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://spcloud:123456@localhost:8080/eureka/  #注册中心地址
+    healthcheck:
+      enabled: false # 健康检查
+  instance:
+    hostname: localhost
+    ip-address: localhost
+    # 实例名字用于心跳检测,拼接在心跳url中，注册服务器会检查 url正确性，如果url不正确会心跳失败
+    instance-id: ${eureka.instance.ip-address}:${server.port}
+    prefer-ip-address: true
+    health-check-url: http://${eureka.instance.ip-address}:${server.port}/health  # 健康信息指示器
+    status-page-url: http://${eureka.instance.ip-address}:${server.port}/info    # 状态页指示器
+    lease-expiration-duration-in-seconds: 90 # 续约到期时间（默认90秒）
+    lease-renewal-interval-in-seconds: 30
+server:
+  port: 8081
+  tomcat:
+    uri-encoding: utf-8
+info:
+   build:
+     names: 服务提供者1
+     version: 1.0.0

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: app # 不能随便改，远程读取配置文件（配置文件的名称）
+server:
+  port: 8087 #端口会被动态替换 8087->6666
+eureka:
+  client:
+    serviceUrl:
+      #注册中心地址可写多个,实现高可用
+      #defaultZone:http://localhost:8080/eureka/,http://localhost:8081/eureka/
+      defaultZone: http://spcloud:123456@localhost:8080/eureka/
+  instance:
+    hostname: localhost
+    instance-id: ${eureka.instance.ip-address}:${server.port}
+    ip-address: localhost
+info:
+   build:
+     names: 从配置中心读取配置
+     version: 1.0.0
