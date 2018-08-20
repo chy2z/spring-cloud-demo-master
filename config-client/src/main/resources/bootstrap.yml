@@ -1,6 +1,27 @@
 spring:
-   cloud:
-      config:
-         profile: default  #配置文件名称 app-default
-         label: master
-         uri: http://localhost:8888/   #配置服务地址
+  application:
+    name: app # 不能随便改，远程读取配置文件（配置文件的名称）
+  cloud:
+    config:
+      #环境
+      profile: default
+      #分支
+      label: master
+      #配置服务地址
+      uri: http://localhost:8888/
+      #配置中心用户名
+      username: chy
+      #配置中心密码
+      password: 123-456-789
+      #快速失败
+      fail-fast: true
+      # 引用依赖 spring-retry aop
+      retry:
+        #间隔次数
+        max-attempts: 3
+        #重试间隔时间
+        initial-interval: 1000
+        #间隔时间递增
+        multiplier: 1.1
+        #最大重试间隔
+        max-interval: 2000
