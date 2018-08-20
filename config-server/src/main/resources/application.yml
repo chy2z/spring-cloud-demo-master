@@ -8,7 +8,14 @@ spring:
       server:
         git:
           uri: https://github.com/chy2z/spring-cloud-config.git
-          # searchPaths: '{application}'  #搜索以服务名命名的文件夹下的所有yml
+          #默认分支
+          default-label: master
+          #用户名
+          #username:
+          #密码
+          #password:
+          #搜索路径，搜索以服务名命名的文件夹下的所有yml,实现1个应用1个目录
+          #search-paths: '{application}'
 eureka:
   instance:
     hostname: localhost
@@ -16,8 +23,17 @@ eureka:
     ip-address: localhost
   client:
      serviceUrl:
-        defaultZone:  http://spcloud:123456@localhost:8080/eureka/  #注册中心地址
+        defaultZone:  http://spcloud:123456@localhost:8080/eureka/  #注册中心地址:
 info:
    build:
      names: 配置中心
      version: 1.0.0
+# 配置中心安全配置
+security:
+  user:
+    name: chy
+    password: 123-456-789
+#获取配置文件
+#http://localhost:8888/应用程序名称｛application.name｝/环境｛profile｝/分支｛label｝
+#http://localhost:8888/app/default/master   app-default.yml
+#http://localhost:8888/app/dev/master       app-dev.yml
